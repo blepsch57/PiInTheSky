@@ -2,9 +2,10 @@
 Ben Lepsch and Jonah Newman
 
 Materials and Tools
-
+&nbsp;
 
 Plan
+&nbsp;
 Date (by Mondays)
 What we think we will do
 What we did
