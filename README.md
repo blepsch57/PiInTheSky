@@ -1,2 +1,2 @@
 # Pi in the Sky Plan
-## Ben Lepsch and Jonah Newman
+Ben Lepsch and Jonah Newman
