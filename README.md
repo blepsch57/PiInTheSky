@@ -2,30 +2,30 @@
 Ben Lepsch and Jonah Newman
 
 Materials and Tools
-&nbsp;
 
-Plan
-&nbsp;
+
+Plan  
+
 Date (by Mondays)
 What we think we will do
-What we did
-10/29
+What we did  
+10/29  
 Finish untested code
 
 
-11/5
+11/5  
 Design the other half of the crossbow in solidworks
 
 
-11/12
+11/12  
 Begin making the actual crossbow based on the design
 
 
-11/17
+11/17  
 Continue making the actual crossbow
 
 
-11/24
+11/24  
 Finish making the actual crossbow
 
 
