@@ -29,73 +29,72 @@ Continue making the actual crossbow
 Finish making the actual crossbow
 
 
-12/1
+12/1  
 Begin testing code
 
 
-12/8
+12/8  
 Continue testing code
 
 
-12/15
+12/15  
 Finish code
 
 
-12/22
+12/22  
 break
 
 
-12/29 
+12/29   
 break
 
 
-1/7
+1/7  
+Extra wee  k to catch up on things we didn’t expect
+
+
+1/14   
 Extra week to catch up on things we didn’t expect
 
 
-1/14
-Extra week to catch up on things we didn’t expect
-
-
-1/21
+1/21   
 finished
 
 
 
 
-Code
+Code  
 Our code will accomplish these things:
 Determine velocity using a Riemann sum of the acceleration data
 Make a noise when it thinks it’s at the apex of the flight
 
-Goal:
+Goal:  
 Throw a pi into the air and have it detect when it’s at the apex of its flight
 
-Ideas:
+Ideas:  
 Use a crossbow to throw the pi up
 This also means we need an aerodynamic shell or something around the pi
 
-Resources:
-Crossbow
-Wood
-Leaf spring from car suspension (we will attempt to get one from a local junkyard)
-Exercise resistance band (only as backup in case we can’t get a leaf spring
-screws/nails
-CNC (maybe, for trigger mechanism)
-Pi
-Pi capsule
-3d printer
-Screws/nuts
-Laser cutter/acrylic
-Accelerometer
-battery
-Breadboard
-Wires
-Tape
-LED
+Resources:  
+Crossbow  
+Wood   
+Exercise resistance band  
+screws/nails  
+CNC (maybe, for trigger mechanism)  
+Pi  
+Pi capsule (3d printed)  
+3d printer  
+Screws/nuts  
+Laser cutter/acrylic  
+Accelerometer   
+battery  
+Breadboard  
+Wires  
+Tape  
+LED  
 
-Prototyping stuff:
-CAD Design for raspberry pi shell:
+Prototyping stuff:  
+CAD Design for raspberry pi shell:  
 
 The holes on the back are for indicator LEDs, a button to change stages, and a power switch.
 We later modified the printed part by using a saw to cut a hole into the side so that we could plug the pi into the computer without having to take it out of the shell.
