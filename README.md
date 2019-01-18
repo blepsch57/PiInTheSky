@@ -95,7 +95,7 @@ LED
 
 Prototyping stuff:  
 CAD Design for raspberry pi shell:  
-
+![Raspberry Pi Shell][/screenshott.png]
 The holes on the back are for indicator LEDs, a button to change stages, and a power switch.
 We later modified the printed part by using a saw to cut a hole into the side so that we could plug the pi into the computer without having to take it out of the shell.
 
