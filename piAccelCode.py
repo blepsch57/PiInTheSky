@@ -9,6 +9,8 @@ import time
 led1Pin = 19
 buttonPin = 18
 led2Pin = 5
+buzzerPin = 4
+
 stage = 0
 lastLoopTime = 0.0
 
@@ -36,6 +38,7 @@ gpio.setmode(gpio.BCM)
 gpio.setup(led1Pin, gpio.OUT)
 gpio.setup(led2Pin, gpio.OUT)
 gpio.setup(buttonPin, gpio.IN)
+gpio.setup(buzzerPin, gpio.OUT)
 stageDelayTimer = 0
 
 def dot(vec1, vec2):
