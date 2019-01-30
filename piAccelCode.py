@@ -1,5 +1,5 @@
 import RPi.GPIO as gpio
-from time import sleep
+import time
 import Adafruit_GPIO.SPI as SPI
 import Adafruit_LSM303, math
 
@@ -40,6 +40,13 @@ gpio.setup(led2Pin, gpio.OUT)
 gpio.setup(buttonPin, gpio.IN)
 gpio.setup(buzzerPin, gpio.OUT)
 stageDelayTimer = 0
+
+try:
+    logfile = open("logfile.txt", "x")
+except:
+    logfile = open("logfile.txt", "a")
+
+
 
 def dot(vec1, vec2):
     assert (len(vec1)==len(vec2)), "You can't dot vectors of two different dimensions"
@@ -138,13 +145,16 @@ while True:
     stageDelayTimer = 0
 
     lastLoopTime = time.time()
+
+    logfilewrite("stage 0 initialized at time {}".format(time.gmtime()))
     while stage == 0:
         delayCalculate()
         stage += not gpio.input(buttonPin)
         blink(stage)
         print("stage 0")
-        sleep(delayConst)
+        time.sleep(delayConst)
 
+    logfile.write("stage 1 initialized at time {}".format(time.gmtime()))
     while stage == 1:
         delayCalculate()
         if not gpio.input(buttonPin) and stageDelayTimer > 3.0:
@@ -156,11 +166,12 @@ while True:
         sample += 1
         print("stage 1, accel = {}".format(accel))
         stageDelayTimer += delayTime
-        sleep(delayConst)
+        time.sleep(delayConst)
 
     blinkTimer = 0.0
     downVec = [-n/magnitude(accelCalibrateSum) for n in accelCalibrateSum]
-
+    
+    logfile.write("stage 2 initialized. downvec = {}".format(downVec))
     while stage == 2:
         delayCalculate()
         accel = [n*arbitraryConstant/100.0 for n in lsm303.read()[0]]
@@ -169,7 +180,7 @@ while True:
             stage += 1
         print("stage 2, accel = {}".format(accel))
         stageDelayTimer += delayTime
-        sleep(delayConst)
+        time.sleep(delayConst)
 
     blinkTimer = 0.0
     deltaV = [0.0,0.0,0.0]
@@ -180,11 +191,12 @@ while True:
         delayCalculate()
         accel = [n*arbitraryConstant/100.0 for n in lsm303.read()[0]]
         deltaV = list(map(opAdd, deltaV, [n*delayTime for n in accel], [n*9.8*delayTime for n in downVec]))
-        if activationTimer>0.5/delayTime and abs(dot(deltaV, downVec)) < 1:
+        if activationTimer>0.5/delayTime and a
+        bs(dot(deltaV, downVec)) < 1:
             shriek()
         else:
             unshriek()
         activationTimer += 1
         stageDelayTimer += delayTime
         print("stage 3, accel = {}, deltaV = {}, activated = {}".format(accel, deltaV, activationTimer>0.5/delayTime))
-        sleep(delayConst)
+        time.sleep(delayConst)

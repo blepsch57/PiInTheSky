@@ -41,4 +41,10 @@ gpio.setup(buttonPin, gpio.IN)
 gpio.setup(buzzerPin, gpio.OUT)
 stageDelayTimer = 0
 
-gpio.output(buzzerPin, 1)
+buzzerVal = True
+gpio.output(buzzerPin, buzzerVal)
+while True:
+    if not gpio.input(buttonPin):
+        buzzerVal = not buzzerVal
+    gpio.output(buzzerPin, buzzerVal)
+    print(buzzerVal)
