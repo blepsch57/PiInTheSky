@@ -9,7 +9,7 @@ import time
 led1Pin = 19
 buttonPin = 18
 led2Pin = 5
-buzzerPin = 4
+buzzerPin = 17 
 
 stage = 0
 lastLoopTime = 0.0
@@ -146,7 +146,7 @@ while True:
 
     lastLoopTime = time.time()
 
-    logfilewrite("stage 0 initialized at time {}".format(time.gmtime()))
+    logfile.write("stage 0 initialized at time {}".format(time.gmtime()))
     while stage == 0:
         delayCalculate()
         stage += not gpio.input(buttonPin)
@@ -171,7 +171,7 @@ while True:
     blinkTimer = 0.0
     downVec = [-n/magnitude(accelCalibrateSum) for n in accelCalibrateSum]
     
-    logfile.write("stage 2 initialized. downvec = {}".format(downVec))
+    logfile.write("stage 2 initialized at time {}. downvec = {}".format(time.gmtime(), downVec))
     while stage == 2:
         delayCalculate()
         accel = [n*arbitraryConstant/100.0 for n in lsm303.read()[0]]
@@ -185,14 +185,14 @@ while True:
     blinkTimer = 0.0
     deltaV = [0.0,0.0,0.0]
 
+    logfile.write("stage 3 initialized at time {}.".format(time.gmtime()))
     while stage == 3:
         if not gpio.input(buttonPin) and stageDelayTimer > 3.0:
             stage += 1
         delayCalculate()
         accel = [n*arbitraryConstant/100.0 for n in lsm303.read()[0]]
         deltaV = list(map(opAdd, deltaV, [n*delayTime for n in accel], [n*9.8*delayTime for n in downVec]))
-        if activationTimer>0.5/delayTime and a
-        bs(dot(deltaV, downVec)) < 1:
+        if activationTimer>0.5/delayTime and abs(dot(deltaV, downVec)) < 1:
             shriek()
         else:
             unshriek()
