@@ -9,7 +9,7 @@ import time
 led1Pin = 19
 buttonPin = 18
 led2Pin = 5
-buzzerPin = 4
+buzzerPin =17 
 
 stage = 0
 lastLoopTime = 0.0
