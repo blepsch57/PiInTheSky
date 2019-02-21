@@ -184,12 +184,15 @@ while True:
         blink(stage)
         if math.acos(dot(downVec,[-n for n in accel])/(magnitude(downVec)*magnitude(accel))) > 3.141592653589793238462643383/4.0 or (not gpio.input(buttonPin) and stageDelayTimer >0.5):
             stage += 1
+            stageDelayTimer = 0.0
         print("stage 2, accel = {}".format(accel))
         stageDelayTimer += delayTime
         time.sleep(delayConst)
 
     blinkTimer = 0.0
     deltaV = [0.0,0.0,0.0]
+
+    shriekStarted = False
 
     logfile.write("stage 3 initialized at time {}\n".format(time.gmtime()))
     while stage == 3:
@@ -198,14 +201,14 @@ while True:
         delayCalculate()
         accel = [n*arbitraryConstant/100.0 for n in lsm303.read()[0]]
         deltaV = list(map(opAdd, deltaV, [n*delayTime for n in accel], [n*9.8*delayTime for n in downVec]))
-        if shriekTimer < 2.0 and activationTimer>0.5/delayTime and abs(dot(deltaV, downVec)) < 1:
+        if shriekTimer < 1.0 and activationTimer>0.5 and abs(dot(deltaV, downVec)) < 1:
             if shriekStarted == False:
                 logfile.write("shrieking at time {}, deltaV {} m/s\n".format(time.gmtime(), deltaV))
             shriekStarted = True
             shriek()
-        elif shriekTimer > 2.0:
+        elif shriekTimer > 1.0:
             unshriek()
-        activationTimer += 1
+        activationTimer += delayTime 
         stageDelayTimer += delayTime
         shriekTimer += shriekStarted*delayTime
         print("stage 3, accel = {}, deltaV = {}, activated = {}\n".format(accel, deltaV, activationTimer>0.5/delayTime))
