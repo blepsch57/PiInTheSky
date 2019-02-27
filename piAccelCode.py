@@ -4,7 +4,7 @@ import Adafruit_GPIO.SPI as SPI
 import Adafruit_LSM303, math
 
 from operator import truediv
-import time
+
 
 led1Pin = 19
 buttonPin = 18
@@ -45,7 +45,7 @@ gpio.setup(buzzerPin, gpio.OUT)
 stageDelayTimer = 0
 
 logfile = open("logfile.txt", "w")
-
+accelfile = open("accelfile.txt", "w")
 
 
 def dot(vec1, vec2):
@@ -106,13 +106,13 @@ def shriek():
     gpio.output(led2Pin, True)
     gpio.output(buzzerPin, True)
     print("shrieking -__--_--_-__-_-_---_---_-_-----_-_-----_-_-_-_-----_--__-_")
-    logfile.write("start shriek at time {}\n".format(time.gmtime()))
+    logfile.write("start shriek at time {}\n".format(time.time()))
 
 def unshriek():
     gpio.output(led1Pin, False)
     gpio.output(led2Pin, False)
     gpio.output(buzzerPin, False)
-    logfile.write("end shriek at time {}\n".format(time.gmtime()))
+    logfile.write("end shriek at time {}\n".format(time.time()))
 
 def opAdd(*x):
     #print("opadd: args are {}".format(x))
@@ -152,7 +152,8 @@ while True:
     lastLoopTime = time.time()
     gpio.output(buzzerPin, False)
 
-    logfile.write("stage 0 initialized at time {}\n".format(time.gmtime()))
+    logfile.write("stage 0 initialized at time {}\n".format(time.time()))
+    lastLoopTime = time.time()
     while stage == 0:
         delayCalculate()
         stage += not gpio.input(buttonPin)
@@ -160,50 +161,59 @@ while True:
         print("stage 0")
         time.sleep(delayConst)
 
-    logfile.write("stage 1 initialized at time {}\n".format(time.gmtime()))
+    logfile.write("stage 1 initialized at time {}\n".format(time.time()))
     while stage == 1:
         delayCalculate()
         if not gpio.input(buttonPin) and stageDelayTimer > 3.0:
             stage += 1
-            stageDelayTimer = 0.0
         blink(stage)
         accel = [n*arbitraryConstant/100.0 for n in lsm303.read()[0]]
-        accelCalibrateSum = list( map(opAdd, accelCalibrateSum, accel) )
+        accelCalibrateSum = list( map(opAdd, accelCalibrateSum, [n/100.0 for n in accel]) )
         sample += 1
         print("stage 1, accel = {}".format(accel))
         stageDelayTimer += delayTime
         time.sleep(delayConst)
 
     blinkTimer = 0.0
-    downVec = [-n/magnitude(accelCalibrateSum) for n in accelCalibrateSum]
+    stageDelayTimer = 0.0
+    magnitudeFactor = magnitude(accelCalibrateSum)
+    downVec = [-n/magnitudeFactor for n in accelCalibrateSum]
+    accelfile.write("downVec = {}\n".format(downVec))
+
     
-    logfile.write("stage 2 initialized at time {}. downvec = {}\n".format(time.gmtime(), downVec))
+    deltaV = [0.0,0.0,0.0]
+
+    logfile.write("stage 2 initialized at time {}. downvec = {}\n".format(time.time(), downVec))
     while stage == 2:
         delayCalculate()
         accel = [n*arbitraryConstant/100.0 for n in lsm303.read()[0]]
         blink(stage)
-        if math.acos(dot(downVec,[-n for n in accel])/(magnitude(downVec)*magnitude(accel))) > 3.141592653589793238462643383/4.0 or (not gpio.input(buttonPin) and stageDelayTimer >0.5):
+        if math.acos(dot(accel, [-n for n in downVec])/(magnitude(downVec)*magnitude(accel))) > 3.141592653589793238462643383/4.0 or (not gpio.input(buttonPin) and stageDelayTimer >0.5):
             stage += 1
-            stageDelayTimer = 0.0
+            deltaV = list(map(opAdd, deltaV, [n*delayTime for n in accel], [n*9.8*delayTime for n in downVec]))
         print("stage 2, accel = {}".format(accel))
         stageDelayTimer += delayTime
         time.sleep(delayConst)
-
+    
+    stageDelayTimer = 0.0
     blinkTimer = 0.0
-    deltaV = [0.0,0.0,0.0]
+    activationTimer = 0.0
 
     shriekStarted = False
+    shriekTimer = 0.0
 
-    logfile.write("stage 3 initialized at time {}\n".format(time.gmtime()))
+    logfile.write("stage 3 initialized at time {}\n".format(time.time()))
     while stage == 3:
         if not gpio.input(buttonPin) and stageDelayTimer > 3.0:
             stage += 1
         delayCalculate()
         accel = [n*arbitraryConstant/100.0 for n in lsm303.read()[0]]
         deltaV = list(map(opAdd, deltaV, [n*delayTime for n in accel], [n*9.8*delayTime for n in downVec]))
-        if shriekTimer < 1.0 and activationTimer>0.5 and abs(dot(deltaV, downVec)) < 1:
+        accelfile.write("time: {}, deltaV = {} ".format(time.time(), deltaV))
+        accelfile.write("vertical component = {}\n".format(dot(deltaV, downVec)))
+        if shriekTimer < 1.0 and activationTimer>0.25 and abs(dot(deltaV, downVec)) < 10:
             if shriekStarted == False:
-                logfile.write("shrieking at time {}, deltaV {} m/s\n".format(time.gmtime(), deltaV))
+                logfile.write("shrieking at time {}, deltaV {} m/s\n".format(time.time(), deltaV))
             shriekStarted = True
             shriek()
         elif shriekTimer > 1.0:
