@@ -211,13 +211,14 @@ while True:
         deltaV = list(map(opAdd, deltaV, [n*delayTime for n in accel], [n*9.8*delayTime for n in downVec]))
         accelfile.write("time: {}, deltaV = {} ".format(time.time(), deltaV))
         accelfile.write("vertical component = {}\n".format(dot(deltaV, downVec)))
-        if shriekTimer < 1.0 and activationTimer>0.25 and abs(dot(deltaV, downVec)) < 10:
+        if shriekTimer == 0.0 and activationTimer > 0.1 and abs(dot(deltaV, downVec)) < 10:
             if shriekStarted == False:
                 logfile.write("shrieking at time {}, deltaV {} m/s\n".format(time.time(), deltaV))
-            shriekStarted = True
-            shriek()
-        elif shriekTimer > 1.0:
+                shriekStarted = True
+                shriek()
+        elif shriekTimer > 1.0 and shriekStarted == True:
             unshriek()
+            shriekStarted = False
         activationTimer += delayTime 
         stageDelayTimer += delayTime
         shriekTimer += shriekStarted*delayTime
