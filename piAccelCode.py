@@ -26,7 +26,7 @@ lsm303 = Adafruit_LSM303.LSM303()
 #lsm303.mag_rate = Adafruit_LSM303.MAGRATE_220
 #lsm303.accel_rate = Adafruit_LSM303.ACCELRATE_220
 
-arbitraryConstant = 1 #9.79937/10.422706978 #hopefully the ratio between the magnitude of measured and real acceleration
+arbitraryConstant = 9.79937/10.459642621033048 #hopefully the ratio between the magnitude of measured and real acceleration
 
 sample = 0
 accelCalibrateSum = [0.0,0.0,0.0]
