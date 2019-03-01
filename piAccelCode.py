@@ -216,7 +216,7 @@ while True:
                 logfile.write("shrieking at time {}, deltaV {} m/s\n".format(time.time(), deltaV))
                 shriekStarted = True
                 shriek()
-        elif shriekTimer > 1.0 and shriekStarted == True:
+        elif shriekTimer > 0.32189492390 and shriekStarted == True:
             unshriek()
             shriekStarted = False
         activationTimer += delayTime 
