@@ -130,14 +130,9 @@ while True:
     blinkTimer = 0.0
     shriekTimer = 0.0
 
-    delayConst = 0.01
     delayTime = delayConst
 
-    lsm303 = Adafruit_LSM303.LSM303()
-    #lsm303.mag_rate = Adafruit_LSM303.MAGRATE_220
-    #lsm303.accel_rate = Adafruit_LSM303.ACCELRATE_220
 
-    arbitraryConstant = 1 #9.79937/10.422706978 #hopefully the ratio between the magnitude of measured and real acceleration
 
     sample = 0
     accelCalibrateSum = [0.0,0.0,0.0]
@@ -208,7 +203,7 @@ while True:
             stage += 1
         delayCalculate()
         accel = [n*arbitraryConstant/100.0 for n in lsm303.read()[0]]
-        deltaV = list(map(opAdd, deltaV, [n*delayTime for n in accel], [n*9.8*delayTime for n in downVec]))
+        deltaV = list(map(opAdd, deltaV, [n*delayTime for n in accel], [n*9.79937*delayTime for n in downVec]))
         accelfile.write("time: {}, deltaV = {} ".format(time.time(), deltaV))
         accelfile.write("vertical component = {}\n".format(dot(deltaV, downVec)))
         if shriekTimer == 0.0 and activationTimer > 0.1 and abs(dot(deltaV, downVec)) < 10:
