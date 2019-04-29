@@ -1,14 +1,14 @@
 # Pi in the Sky Plan
 Ben Lepsch and Jonah Newman
 
-Materials and Tools
-
-
-Plan  
+### Plan  
 
 Date (by Mondays)
+
 What we think we will do
+
 What we did  
+
 10/29  
 Finish untested code
 
@@ -90,7 +90,7 @@ Wires
 Tape  
 LED  
 
-Prototyping stuff:  
+### CAD
 CAD Design for raspberry pi shell:  
 ![Raspberry Pi Shell](/screenshott.png)  
 The holes on the back are for indicator LEDs, a button to change stages, and a power switch.
