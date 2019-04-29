@@ -63,19 +63,16 @@ finished
 
 
 
-Code  
-Our code will accomplish these things:
-Determine velocity using a Riemann sum of the acceleration data
-Make a noise when it thinks it’s at the apex of the flight
+### Goal  
+For this project we will launch our raspberry pi into the air and have it determine when it's at the apex of its flight, then beep or something so we know it was correct.
 
-Goal:  
-Throw a pi into the air and have it detect when it’s at the apex of its flight
+The way we did this was writing the code so that as it's launched, it gathers acceleration data and uses a Riemann sum to approximate what time it will reach its apex.
 
-Ideas:  
-Use a crossbow to throw the pi up
-This also means we need an aerodynamic shell or something around the pi
+### Ideas:  
+Use a crossbow/slingshot hybrid thing to throw the pi up.
+This also means we need an aerodynamic shell or something around the pi to protect it when it lands, since we won't be able to catch it.
 
-Resources:  
+### Resources:  
 Crossbow  
 Wood   
 Exercise resistance band  
