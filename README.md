@@ -42,15 +42,15 @@ Finish code
 
 
 12/22  
-break
+winter break, do nothing
 
 
 12/29   
-break
+winter break, do nothing
 
 
 1/7  
-Extra wee  k to catch up on things we didn’t expect
+Extra week to catch up on things we didn’t expect
 
 
 1/14   
@@ -97,3 +97,8 @@ The holes on the back are for indicator LEDs, a button to change stages, and a p
 We later modified the printed part by using a saw to cut a hole into the side so that we could plug the pi into the computer without having to take it out of the shell.
 
 
+### Looking Back
+
+We mostly stuck with our original ideas throughout this project. We used a crossbow/slingshot hybrid to launch the pi, a 3D-printed shell to protect it on landing, and a Riemann sum of the initial acceleration to predict the apex. We modified the 3D printed shell a few times by drilling out the hole for the button because it wouldn't fit initially, and by cutting out part of the side so we could plug cables into the Pi without removing it from the shell. We also didn't make a crossbow with a leaf spring, but instead used an exercise band to make more of a giant slingshot than a crossbow.
+
+Because of the delay caused by these changes and the code taking MUCH longer to complete than we initially thought, we finished our Pi in the Sky project on March 6th, over a month later than we predicted.
